@@ -25,10 +25,15 @@
   </head>
   <body>
     <div id="main">
+      <form id="send">
+        Message:<br>
+        <input type="text" id="message"><br>
+        <input type="submit" class=".submit"><br>
+      </form>
       <h1>chatterbox</h1>
       <button class="testSendButton">testSend</button>
       <button class="testGetButton">testGet</button>
-      <select class="roomList"></select>
+      <select id="roomSelect"></select>
     </div>
     <div id="chats"></div>
   </body>

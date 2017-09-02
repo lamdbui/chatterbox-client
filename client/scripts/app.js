@@ -58,7 +58,12 @@ class App {
 
   renderMessage(message) {
     var $message = $(`<div class="message"></div>`);
-    var $username = $(`<a class="username">${message.username}</a>`);
+    var $username;
+    if (this.friends.has(message.username)) {
+      $username = $(`<a class="username">${message.username}(friend)</a>`);
+    } else {
+      $username = $(`<a class="username">${message.username}</a>`); 
+    }
     var $messageContent = $(`<h3>${message.text}</h3>`);
     $message.append($username, $messageContent);
     $('#chats').append($message);
@@ -129,7 +134,8 @@ class App {
 var app = new App();
 
 $(document).on('click', '.username', function(event) {
-  app.handleUsernameClick();
+  app.handleUsernameClick($(this).text());
+  app.handleData();
 });
 
 $(document).on('click', '.submit', function(event) {

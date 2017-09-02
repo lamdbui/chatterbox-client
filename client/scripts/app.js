@@ -1,6 +1,8 @@
 // YOUR CODE HERE:
 class App {
   constructor() {
+    this.QUERY_LIMIT = 200;
+
     this.server = 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages';
     this.friends = new Set();
     this.rooms = [];
@@ -9,7 +11,6 @@ class App {
   }
 
   init() {
-  
   }
 
   send(message) {
@@ -33,12 +34,16 @@ class App {
   }
 
   fetch() {
+    var that = this;
+
     $.ajax({
       // This is the url you should use to communicate with the parse API server.
-      url: this.server,
+      url: app.server + `?limit=${that.QUERY_LIMIT}&order=-createdAt`,
       type: 'GET',
       success: function (data) {
         console.log('chatterbox: Message get');
+        that.messages = data.results;
+        that.handleData();
       },
       error: function (data) {
         // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -117,22 +122,7 @@ class App {
   }
 
   refresh() {
-    var that = this;
-
-    $.ajax({
-      // This is the url you should use to communicate with the parse API server.
-      url: 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages?limit=200&order=-createdAt',
-      type: 'GET',
-      success: function (data) {
-        console.log('chatterbox: Message get');
-        that.messages = data.results;
-        that.handleData();
-      },
-      error: function (data) {
-        // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
-        console.error('chatterbox: Failed to get message', data);
-      }
-    });
+    this.fetch();
   }
 }
 
@@ -144,11 +134,23 @@ $(document).on('click', '.username', function(event) {
 
 $(document).on('click', '.submit', function(event) {
   app.handleSubmit($('#message').val());
+  $('#message').val('');
 });
 
 $(document).on('change', '#roomSelect', function(event) {
   app.currentRoom = $(this).val();
   app.handleMessages();
+});
+
+$(document).on('click', '.newChannelButton', function(event) {
+  $('#dialog').dialog();
+});
+
+$(document).on('click', '.submitNewChannel', function(event) {
+  app.currentRoom = $('#newChannel').val();
+  app.rooms.push(app.currentRoom);
+  app.handleRooms();
+  $('#dialog').dialog('close');
 });
 
 $(document).ready(function() {
@@ -158,4 +160,5 @@ $(document).ready(function() {
   app.username = url.searchParams.get('username');
   app.autoRefresh();
 
+  $('#dialog').hide();
 });

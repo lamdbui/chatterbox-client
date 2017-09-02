@@ -4,10 +4,12 @@
     <meta charset="utf-8">
     <title>chatterbox</title>
     <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="bower_components/jquery-ui/themes/base/jquery-ui.css">
 
     <!-- dependencies -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
     <script>
       // YOU DO NOT NEED TO EDIT THIS CODE
       if (!/(&|\?)username=/.test(window.location.search)) {
@@ -28,12 +30,17 @@
       <form id="send">
         Message:<br>
         <input type="text" id="message"><br>
-        <input type="button" class="submit"><br>
+        <input type="button" class="submit" value="Send Message"><br>
       </form>
       <h1>chatterbox</h1>
-      <button class="testSendButton">testSend</button>
-      <button class="testGetButton">testGet</button>
+      <button class="newChannelButton">New Channel</button>
       <select id="roomSelect"></select>
+    </div>
+    <div id="dialog" title="New Channel">
+      <form id="newChannelForm">
+        <input type="text" id="newChannel"><br>
+        <input type="button" class="submitNewChannel" value="Confirm"><br>
+      </form>
     </div>
     <div id="chats"></div>
   </body>

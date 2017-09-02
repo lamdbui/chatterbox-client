@@ -58,16 +58,14 @@ class App {
 
   renderMessage(message) {
     var $message = $(`<div class="message"></div>`);
-    var $username;
+    var $username = $(`<h3 class="username"><a></a></h3>`);
     var usernameNode = document.createTextNode(message.username);
     if (this.friends.has(message.username)) {
-      $username = $(`<a class="username">(friend)</a>`);
-    } else {
-      $username = $(`<a class="username"></a>`); 
+      $message.addClass('friend');
     }
     $username.append(usernameNode);
     var textNode = document.createTextNode(message.text);
-    var $messageContent = $(`<h3></h3>`);
+    var $messageContent = $(`<p class="messageContent"></p>`);
     $messageContent.append(textNode);
     $message.append($username, $messageContent);
     $('#chats').append($message);
@@ -79,8 +77,12 @@ class App {
   }
   
   handleUsernameClick(name) {
-    if (name !== this.username) {
-      this.friends.add(name);
+    if (name !== this.username) { 
+      if (this.friends.has(name)) {
+        this.friends.delete(name);
+      } else {
+        this.friends.add(name);
+      }
     }
   }
 

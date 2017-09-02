@@ -59,12 +59,16 @@ class App {
   renderMessage(message) {
     var $message = $(`<div class="message"></div>`);
     var $username;
+    var usernameNode = document.createTextNode(message.username);
     if (this.friends.has(message.username)) {
-      $username = $(`<a class="username">${message.username}(friend)</a>`);
+      $username = $(`<a class="username">(friend)</a>`);
     } else {
-      $username = $(`<a class="username">${message.username}</a>`); 
+      $username = $(`<a class="username"></a>`); 
     }
-    var $messageContent = $(`<h3>${message.text}</h3>`);
+    $username.append(usernameNode);
+    var textNode = document.createTextNode(message.text);
+    var $messageContent = $(`<h3></h3>`);
+    $messageContent.append(textNode);
     $message.append($username, $messageContent);
     $('#chats').append($message);
   }

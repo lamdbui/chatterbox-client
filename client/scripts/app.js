@@ -8,6 +8,7 @@ class App {
     this.rooms = [];
     this.messages = [];
     this.currentRoom = 'lobby';
+    this.currentFriend = undefined;
   }
 
   init() {
@@ -80,8 +81,22 @@ class App {
     if (name !== this.username) { 
       if (this.friends.has(name)) {
         this.friends.delete(name);
+      
+        var friendListItems = $('.list-group-item');
+        _.find(friendListItems, (element) => {
+          return element.innerText === name; 
+        }).remove();
+        if (app.currentFriend === name) {
+          app.currentFriend = undefined;
+        }
+
       } else {
         this.friends.add(name);
+        var $newFriend = $('<a href="#" class="list-group-item list-group-item-action"></a>');
+        var friendNode = document.createTextNode(name);
+        $newFriend.append(friendNode);
+
+        $('.friendList').append($newFriend);
       }
     }
   }
@@ -117,11 +132,17 @@ class App {
   }
 
   handleMessages() {
-    var roomMessages = _.filter(this.messages, (message) => {
+    var filteredMessages = _.filter(this.messages, (message) => {
       return message.roomname === this.currentRoom;
     });
+
+    if (this.currentFriend) {
+      filteredMessages = _.filter(filteredMessages, (message) => {
+        return message.username === this.currentFriend;
+      });
+    }
     $('#chats').empty();
-    _.each(roomMessages, (message) => {
+    _.each(filteredMessages, (message) => {
       this.renderMessage(message);
     });
   }
@@ -163,6 +184,19 @@ $(document).on('click', '.submitNewChannel', function(event) {
   app.rooms.push(app.currentRoom);
   app.handleRooms();
   $('#dialog').dialog('close');
+});
+
+$(document).on('click', '.list-group-item', function(event) {
+  if (app.currentFriend) {
+    if (app.currentFriend === $(this).text()) {
+      app.currentFriend = undefined;
+    } else {
+      app.currentFriend = $(this).text();
+    }
+  } else {
+    app.currentFriend = $(this).text();
+  }
+  app.handleData();
 });
 
 $(document).ready(function() {

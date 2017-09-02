@@ -5,11 +5,13 @@
     <title>chatterbox</title>
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="bower_components/jquery-ui/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
 
     <!-- dependencies -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script>
       // YOU DO NOT NEED TO EDIT THIS CODE
       if (!/(&|\?)username=/.test(window.location.search)) {
@@ -26,22 +28,28 @@
     <script src="scripts/app.js"></script>
   </head>
   <body>
-    <div id="main">
-      <form id="send">
-        Message:<br>
-        <input type="text" id="message"><br>
-        <input type="button" class="submit" value="Send Message"><br>
-      </form>
-      <h1>chatterbox</h1>
-      <button class="newChannelButton">New Channel</button>
-      <select id="roomSelect"></select>
+    <nav class="navbar navbar-expand-md navbar-dark bg-info fixed-top">
+      <a class="navbar-brand" href="#">ChatterBox</a>
+    </nav>
+
+    <div class="container">
+      <div id="main">
+        <form id="send">
+          Message:<br>
+          <input type="text" id="message"><br>
+          <input type="button" class="submit" value="Send Message"><br>
+        </form>
+        <h1>chatterbox</h1>
+        <button class="newChannelButton">New Channel</button>
+        <select id="roomSelect"></select>
+      </div>
+      <div id="dialog" title="New Channel">
+        <form id="newChannelForm">
+          <input type="text" id="newChannel"><br>
+          <input type="button" class="submitNewChannel" value="Confirm"><br>
+        </form>
+      </div>
+      <div id="chats"></div>
     </div>
-    <div id="dialog" title="New Channel">
-      <form id="newChannelForm">
-        <input type="text" id="newChannel"><br>
-        <input type="button" class="submitNewChannel" value="Confirm"><br>
-      </form>
-    </div>
-    <div id="chats"></div>
   </body>
 </html>
